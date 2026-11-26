@@ -1,0 +1,13 @@
+{
+  "Common": {
+    "appName": "Hogan",
+    "subtitle": "Motorcycles & Spare Parts",
+    "language": "Language",
+    "english": "English",
+    "arabic": "العربية"
+  },
+  "Public": {
+    "title": "Motorcycles & Spare Parts",
+    "description": "Public storefront placeholder — ready for Phase 2."
+  }
+}
