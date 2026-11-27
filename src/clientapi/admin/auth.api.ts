@@ -22,11 +22,21 @@ export async function getCurrentAdmin(): Promise<AdminProfileDto> {
 }
 
 export function extractApiErrorMessage(error: unknown, fallback: string): string {
-  if (axios.isAxiosError<ProblemDetails & { message?: string }>(error)) {
+  if (
+    axios.isAxiosError<
+      ProblemDetails & { message?: string; errors?: Record<string, string[]> }
+    >(error)
+  ) {
     const data = error.response?.data;
+    if (data?.errors && typeof data.errors === "object") {
+      const firstFieldErrors = Object.values(data.errors).find(
+        (msgs) => Array.isArray(msgs) && msgs.length > 0,
+      );
+      if (firstFieldErrors?.[0]) return firstFieldErrors[0];
+    }
     if (data?.detail && typeof data.detail === "string") return data.detail;
-    if (data?.title && typeof data.title === "string") return data.title;
     if (data?.message && typeof data.message === "string") return data.message;
+    if (data?.title && typeof data.title === "string") return data.title;
   }
 
   if (error instanceof Error && error.message) {

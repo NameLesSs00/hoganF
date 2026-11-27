@@ -35,3 +35,12 @@ export const publicApi = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+/**
+ * Resolves a backend media path (relative or absolute) to a displayable URL.
+ */
+export function resolveMediaUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  if (/^https?:\/\//i.test(url)) return url;
+  return `${API_BASE_URL}/${url.replace(/^\/+/, "")}`;
+}
